@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Todas as suas notícias num só sítio. Leia todos os temas da actualidade.">
+    <meta name="keywords" content="notícias, noticias online, portugal, noticias portugal, artigos, no momento, todas as suas notícias, tudo num só sítio Notícias, notícias em português, actualidade, última hora, últimas notícias, newsletters, notícias populares, notícias mais partilhadas, notícias mais lidas, ao minuto, reportagem, opinião, análise, multimédia, vídeo, fotografia, notícias de política, política, notícias de sociedade, sociedade, notícias de local, local, notícias de economia, economia, notícias de internacional, notícias do mundo, mundo, notícias de cultura, cultura, notícias de desporto, desporto, notícias de ciência, ciência, notícias de tecnologia, tecnologia, ípsilon, life style, fugas, p3, cinecartaz, guia do lazer, lazer, cartaz de cinema, horário de cinemas, inimigo público, blogues, tudo menos economia, bartoon, jornal público, edição impressa público, emprego, tv, programação tv, classificados, imobiliário">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="No Momento">
+    <meta property="og:url" content="https://www.nomomento.pt">
+    <meta property="og:site_name" content="No Momento">
+    <meta property="og:description" content="Todas as suas notícias num só sítio. Leia todos os temas da actualidade.">
+    <meta name="João Marques" content="https://github.com/jpovmarques?tab=followers">
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97050308-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-97050308-2');
+    </script>
+    <link href="index.css" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <title>No Momento - Todas as suas notícias num só sítio</title>
+  </head>
+  <body>
+      <!-- <select onchange="onCountryChange(this)" style="background: url(flag.png) 80% / 30% no-repeat #eee;"/>
+        <option id="pt" src="portugal.svg" value="pt" style="background-image:url(portugal.svg);">PT</option>
+        <option value="us"> <img src="portugal.svg" alt="pt"> US</option>
+        <option value="br">BR</option>
+        <option value="fr">FR</option>
+      </select> -->
+    <header class="intro-header">
+      <h1 class="logo"><a href="ultimas.html">No Momento</a></h1>
+    </header>
+    <nav id="menu-nav-bar" class="menu-nav-bar">
+      <div id="responsive-dropdown" class="dropdown-content">
+        <div>
+        <li><a class="nav-relem" onclick="handleUltimasClick(true);">Últimas</a></li>
+        <li><a class="nav-relem" onclick="handleDesportoClick(true);">Desporto</a></li>
+        <li><a class="nav-relem" onclick="handleSaudeClick(true);">Saúde</a></li>
+        <li><a class="nav-relem" onclick="handleNegocioClick(true);">Negócio</a></li>
+        <li><a class="nav-relem padding-right" onclick="handleTecnologiaClick(true);">Tecnologia</a></li>
+        </div>
+      </div>
+      <ul class="padding-right">
+        <li><a id="responsive-menu" class="no-hover padding-left" onclick="handleButtonMenuClick();"><i class="menu-icon fas fa-bars"></i></a></li>
+        <div id="responsive-container">
+          <h1 id="responsive-logo"><a id="responsive-logo" href="ultimas.html">No Momento</a></h1>
+        </div>
+        <a 
+          id="search-button" 
+          class="no-hover" 
+          onclick="handleButtonSearchClick();"
+        >
+          <i class="menu-icon fas fa-search"></i>
+        </a>
+        <input id="search-input" class="hide" type="search" placeholder="Pesquise notícias..." />
+        <li id="ultimas" class="li-elem"><a class="nav-elem" onclick="handleUltimasClick();">Últimas</a></li>
+        <li id="desporto" class="li-elem"><a class="nav-elem" onclick="handleDesportoClick();">Desporto</a></li>
+        <li id="saude" class="li-elem"><a class="nav-elem" onclick="handleSaudeClick();">Saúde</a></li>
+        <li id="negocio" class="li-elem"><a class="nav-elem" onclick="handleNegocioClick();">Negócio</a></li>
+        <li id="tecnologia" class="li-elem"><a class="nav-elem" onclick="handleTecnologiaClick();">Tecnologia</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <div id="cards-holder" class="cards-holder">
+      </div>
+      <div id="aside-holder" class="aside-holder">
+        <h2 class="subtitle">Top Redes Sociais</h2>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a class="twitter-timeline" href="https://twitter.com/JPF1977/lists/noticias-pt"></a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+    <footer class="footer">
+        <i>No Momento © 2018</i>
+    </footer>
+  </body>
+  <script type="text/javascript">
+
+    let searchMode = false;
+    let page = 1;
+    let category = 'general';
+    let country = 'pt';
+
+    const menuNavBar = document.getElementById("menu-nav-bar");
+    const menuDropdown = document.getElementById("responsive-dropdown");
+    const menuNavBarOffsetTop = menuNavBar.offsetTop;
+    const logoInNav = document.getElementById("logoInNav");
+
+    const onCountryChange = (select) => { 
+      country = select.value; 
+      console.log(country); 
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      getTopHeadlines(); 
+    }
+
+    const handleUltimasClick = (mobileMode) => {
+      if (mobileMode) {
+        handleButtonMenuClick();
+      } else {
+        document.querySelector('#ultimas').classList.add("active");
+        document.querySelector('#negocio').classList.remove("active");
+        document.querySelector('#desporto').classList.remove("active");
+        document.querySelector('#saude').classList.remove("active");
+        document.querySelector('#tecnologia').classList.remove("active");
+      }
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      category = 'general';
+      getTopHeadlines();
+    }
+    const handleDesportoClick = (mobileMode) => {
+      if (mobileMode) {
+        handleButtonMenuClick();
+      } else {
+        document.querySelector('#ultimas').classList.remove("active");
+        document.querySelector('#negocio').classList.remove("active");
+        document.querySelector('#desporto').classList.add("active");
+        document.querySelector('#saude').classList.remove("active");
+        document.querySelector('#tecnologia').classList.remove("active");
+      }
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      category = 'sports';
+      getTopHeadlines();
+    }
+    const handleSaudeClick = (mobileMode) => {
+      if (mobileMode) {
+        handleButtonMenuClick();
+      } else {
+        document.querySelector('#ultimas').classList.remove("active");
+        document.querySelector('#negocio').classList.remove("active");
+        document.querySelector('#desporto').classList.remove("active");
+        document.querySelector('#saude').classList.add("active");
+        document.querySelector('#tecnologia').classList.remove("active");
+      }
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      category = 'health';
+      getTopHeadlines();
+    }
+    const handleNegocioClick = (mobileMode) => {
+      if (mobileMode) {
+        handleButtonMenuClick();
+      } else {
+        document.querySelector('#ultimas').classList.remove("active");
+        document.querySelector('#negocio').classList.add("active");
+        document.querySelector('#desporto').classList.remove("active");
+        document.querySelector('#saude').classList.remove("active");
+        document.querySelector('#tecnologia').classList.remove("active");
+      }
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      category = 'business';
+      getTopHeadlines();
+    }
+
+    const handleTecnologiaClick = (mobileMode) => {
+      if (mobileMode) {
+        handleButtonMenuClick();
+      } else {
+        document.querySelector('#ultimas').classList.remove("active");
+        document.querySelector('#negocio').classList.remove("active");
+        document.querySelector('#desporto').classList.remove("active");
+        document.querySelector('#saude').classList.remove("active");
+        document.querySelector('#tecnologia').classList.add("active");
+      }
+      cleanCardsHolder();
+      searchMode = false;
+      page = 1;
+      category = 'technology';
+      getTopHeadlines();
+    }
+
+    const makeHeaderSticky = () => {
+      if (window.pageYOffset >= menuNavBarOffsetTop) {
+        menuNavBar.classList.add("sticky");
+      } else {
+        menuNavBar.classList.remove("sticky");
+      }
+    }
+
+    const parseDate = (stringDate) => {
+      const date = new Date(stringDate);
+      return {
+        hours: `${date.getHours()}:${date.getMinutes()}h`,
+        date: `${date.toLocaleDateString()}`
+      };
+    }
+
+    const addArticle = (articleData) => {
+      console.log(articleData);
+      const { title, urlToImage, url, publishedAt, source } = articleData;
+      const author = source.name;
+
+      if (urlToImage) {
+        const cardsHolder = document.getElementById('cards-holder');
+        const article = document.createElement('ARTICLE');
+        article.classList.add('card');
+
+        const image = document.createElement('img');
+        image.classList.add('article-image');
+        image.src = urlToImage;
+
+        const div = document.createElement('DIV');
+        div.classList.add('article-side');
+
+        function onCardClick(url) {
+          window.open(url);
+        }
+
+        const p = document.createElement('p');
+        p.classList.add("time");
+        p.textContent = parseDate(publishedAt).hours;
+
+        const div1 = document.createElement('DIV');
+        div1.classList.add("date");
+        div1.textContent = parseDate(publishedAt).date;
+
+        p.appendChild(div1);
+        
+        const h1 = document.createElement('H1');
+        h1.classList.add("title");
+        h1.textContent = title;
+        h1.id="id-h1"
+
+        div.appendChild(p);
+        div.appendChild(h1);
+
+
+        image.addEventListener('click', () => { onCardClick(url) }, false);
+        div.addEventListener('click', () => { onCardClick(url) }, false);
+
+        article.appendChild(image);
+        article.appendChild(div);
+
+        cardsHolder.append(article);
+      }
+    }
+
+    const cleanCardsHolder = () => {
+      const cardsHolder = document.getElementById('cards-holder');
+      cardsHolder.innerHTML = '';
+      const title = document.createElement("H3");
+      title.innerHTML = 'Notícias';
+      title.classList.add("subtitle");
+      cardsHolder.append(title);
+    }
+
+    const getTopHeadlines = () => {
+      const pageSize = 20;
+    
+      if (searchMode === true) {
+        url = 'https://newsapi.org/v2/everything?' + `q=${searchq}&` +
+            `language=${country}&` + `page=${page}&` + `pageSize=${pageSize}&` +
+            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+      } else if (category === 'general') {
+        if (country === 'pt') {
+          url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=5d07253ba43243bd9ca4bdd289261369&' + `page=${page}&` + `language=${country}`
+        } else {
+          url = 'https://newsapi.org/v2/top-headlines?' +
+            `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
+            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+        }
+      } else {
+        console.log('country _>', country)
+        url = 'https://newsapi.org/v2/top-headlines?' +
+            `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
+            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+      }
+
+      const oReq = new XMLHttpRequest();
+      oReq.open("GET", url);
+      oReq.send();
+      oReq.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          const item = JSON.parse(this.responseText);
+          item.articles.forEach((article) => {
+            if (article.urlToImage !== null) {
+              addArticle(article);
+            }
+          });
+        }
+      };
+    }
+
+    const getSearchResults = (text) => {
+      searchMode = true;
+      page = 1;
+      searchq = text;
+
+      cleanCardsHolder()
+      getTopHeadlines()
+    }
+
+    const handleButtonSearchClick = () => {
+      const searchInput = document.getElementById("search-input");
+      const responsiveLogo = document.getElementById("responsive-logo");
+      responsiveLogo.remove();
+      searchInput.classList.remove("hide");
+      responsiveLogo.classList.add("hide");
+      searchInput.addEventListener(
+        "focus", 
+        () => {
+          const navElements = document.getElementsByClassName("nav-elem");
+          for (elem of navElements) {
+            elem.classList.add("hide");
+          }
+        }
+      );
+
+      searchInput.addEventListener(
+        "blur", 
+        () => { 
+          const responsiveContainer = document.getElementById("responsive-container");
+          responsiveContainer.appendChild(responsiveLogo);
+          const navElements = document.getElementsByClassName("nav-elem");
+          for (elem of navElements) {
+            elem.classList.remove("hide");
+          }
+          searchInput.classList.add("hide");
+        }
+      );
+
+      if (searchInput.value !== '') {
+        cleanCardsHolder();
+        getSearchResults(searchInput.value);
+        searchInput.classList.add("hide");
+        searchInput.value = '';
+      } else {
+        searchInput.focus();   
+      } 
+
+      searchInput.onkeypress = function(e){
+        if (!e) e = window.event;
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == '13'){
+          if (searchInput.value !== '') {
+            const cardsHolder = document.getElementById('cards-holder');
+            cleanCardsHolder();
+            getSearchResults(searchInput.value);
+            searchInput.classList.add("hide");
+            searchInput.value = '';
+          } else {
+            searchInput.focus();   
+          } 
+          return false;
+        }
+      }
+    }
+
+    const setInfiniteScroll = () => {
+      window.addEventListener('scroll', function() {
+        const height = "innerHeight" in window 
+               ? window.innerHeight
+               : document.documentElement.offsetHeight; 
+        if (window.scrollY + height >= document.documentElement.scrollHeight) {
+          console.log('fetching...');
+          page = page + 1;
+          getTopHeadlines();
+        }
+      });
+    }
+
+    const handleButtonMenuClick = () => {
+      document.getElementById("responsive-dropdown").classList.toggle("show");
+      if (document.getElementsByTagName("BODY")[0].classList.contains("no-scroll")) {
+        document.getElementsByTagName("BODY")[0].classList.remove("no-scroll");
+      } else {
+        document.getElementsByTagName("BODY")[0].classList.add("no-scroll");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      window.onscroll = function() {makeHeaderSticky()};
+      window.onclick = function(event) {
+        if ((event.target.matches('.padding-left'))) {
+          document.getElementById("responsive-dropdown").classList.toggle("show");
+        }
+      }
+      const cardsHolder = document.querySelector('#cards-holder');
+      cardsHolder.innerHTML = '';
+      const title = document.createElement("H2");
+      title.classList.add("subtitle");
+      title.innerHTML = "Notícias";
+      cardsHolder.appendChild(title);
+      getTopHeadlines();
+      setInfiniteScroll();
+      getWeatherWidget();
+    });
+  </script>
+</html>
