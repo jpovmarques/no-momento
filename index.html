@@ -24,12 +24,6 @@
     <title>No Momento - Todas as suas notícias num só sítio</title>
   </head>
   <body>
-      <!-- <select onchange="onCountryChange(this)" style="background: url(flag.png) 80% / 30% no-repeat #eee;"/>
-        <option id="pt" src="portugal.svg" value="pt" style="background-image:url(portugal.svg);">PT</option>
-        <option value="us"> <img src="portugal.svg" alt="pt"> US</option>
-        <option value="br">BR</option>
-        <option value="fr">FR</option>
-      </select> -->
     <header class="intro-header">
       <h1 class="logo"><a href=".">No Momento</a></h1>
     </header>
@@ -261,20 +255,20 @@
       if (searchMode === true) {
         url = 'https://newsapi.org/v2/everything?' + `q=${searchq}&` +
             `language=${country}&` + `page=${page}&` + `pageSize=${pageSize}&` +
-            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+            'apiKey=07f19d71cade4620a873149086011e0b';
       } else if (category === 'general') {
         if (country === 'pt') {
-          url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=5d07253ba43243bd9ca4bdd289261369&' + `page=${page}&` + `language=${country}`
+          url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=07f19d71cade4620a873149086011e0b&' + `page=${page}&` + `language=${country}`
         } else {
           url = 'https://newsapi.org/v2/top-headlines?' +
             `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+            'apiKey=07f19d71cade4620a873149086011e0b';
         }
       } else {
         console.log('country _>', country)
         url = 'https://newsapi.org/v2/top-headlines?' +
             `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-            'apiKey=5d07253ba43243bd9ca4bdd289261369';
+            'apiKey=07f19d71cade4620a873149086011e0b';
       }
 
       const oReq = new XMLHttpRequest();
@@ -394,7 +388,6 @@
       cardsHolder.appendChild(title);
       getTopHeadlines();
       setInfiniteScroll();
-      getWeatherWidget();
     });
   </script>
 </html>
