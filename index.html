@@ -256,28 +256,37 @@ const cleanCardsHolder = () => {
   cardsHolder.append(title);
 }
 
+let apiKeys = [
+  'a52187dbadc7404fbe39ce1411d0fd4d',
+  '02e4797226234e7594d8a27122b0f4bc',
+  '6e41c1d153b9441ea84f14aac376b486',
+  '9bf03db1bfd5446badc27f37ab0bad5d',
+  'e31273b82fa14d1380a5c584caf9f674',
+  '07f19d71cade4620a873149086011e0b',
+  '5d07253ba43243bd9ca4bdd289261369',
+]
+let apiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)]
+
 const getTopHeadlines = () => {
   const pageSize = 20;
-
-  /*a52187dbadc7404fbe39ce1411d0fd4d*/
+  console.log('apiKey', apiKey)
 
   if (searchMode === true) {
     url = 'https://newsapi.org/v2/everything?' + `q=${searchq}&` +
       `language=${country}&` + `page=${page}&` + `pageSize=${pageSize}&` +
-      'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
+      'apiKey=' + apiKey;
   } else if (category === 'general') {
     if (country === 'pt') {
-      url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=a52187dbadc7404fbe39ce1411d0fd4d&' + `page=${page}&` + `language=${country}`
+      url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=& + apiKey' + `page=${page}&` + `language=${country}`
     } else {
       url = 'https://newsapi.org/v2/top-headlines?' +
         `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-        'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
+        'apiKey=' + apiKey;
     }
   } else {
-    console.log('country _>', country)
     url = 'https://newsapi.org/v2/top-headlines?' +
       `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-      'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
+      'apiKey=' + apiKey;
   }
 
   const oReq = new XMLHttpRequest();
@@ -291,6 +300,8 @@ const getTopHeadlines = () => {
           addArticle(article);
         }
       });
+    } else {
+      apiKey = apiKeys.splice(0,1)[0]
     }
   };
 }
