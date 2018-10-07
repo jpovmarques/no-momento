@@ -259,23 +259,25 @@ const cleanCardsHolder = () => {
 const getTopHeadlines = () => {
   const pageSize = 20;
 
+  /*a52187dbadc7404fbe39ce1411d0fd4d*/
+
   if (searchMode === true) {
     url = 'https://newsapi.org/v2/everything?' + `q=${searchq}&` +
       `language=${country}&` + `page=${page}&` + `pageSize=${pageSize}&` +
-      'apiKey=5d07253ba43243bd9ca4bdd289261369';
+      'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
   } else if (category === 'general') {
     if (country === 'pt') {
-      url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=5d07253ba43243bd9ca4bdd289261369&' + `page=${page}&` + `language=${country}`
+      url = 'https://newsapi.org/v2/everything?domains=' + 'observador.pt,' + 'publico.pt,' + 'cmjornal.pt' + 'sapo.pt' + 'expresso.sapo.pt' + 'sabado.pt' + '&apiKey=a52187dbadc7404fbe39ce1411d0fd4d&' + `page=${page}&` + `language=${country}`
     } else {
       url = 'https://newsapi.org/v2/top-headlines?' +
         `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-        'apiKey=5d07253ba43243bd9ca4bdd289261369';
+        'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
     }
   } else {
     console.log('country _>', country)
     url = 'https://newsapi.org/v2/top-headlines?' +
       `country=${country}&` + `page=${page}&` + `category=${category}&` + `pageSize=${pageSize}&` +
-      'apiKey=5d07253ba43243bd9ca4bdd289261369';
+      'apiKey=a52187dbadc7404fbe39ce1411d0fd4d';
   }
 
   const oReq = new XMLHttpRequest();
